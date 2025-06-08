@@ -30,7 +30,7 @@ int Train::getLength() {
     countOp++;
   }
 
-  Car* marker = current;
+  const Car* marker = current;
   int length = 1;
   current = current->next;
   countOp++;
