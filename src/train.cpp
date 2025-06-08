@@ -22,8 +22,8 @@ int Train::getLength() {
     countOp = 0;
     if (!first) return 0;
 
-    countOp++;
     first->light = true;
+    countOp++;
 
     countOp++;
     Car* current = first->next;
