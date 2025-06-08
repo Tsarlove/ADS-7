@@ -22,29 +22,7 @@ int Train::getLength() {
   countOp = 0;
   if (!first) return 0;
 
-  // Проверка: есть ли уже включённые лампочки
-  Car* check = first;
-  do {
-    if (check->light) {
-      int length = 1;
-      const Car* temp = check->next;
-      countOp++;
-      while (temp != check) {
-        length++;
-        temp = temp->next;
-        countOp++;
-      }
-      return length;
-    }
-    check = check->next;
-    countOp++;
-  } while (check != first);
-
-  // Включаем первую лампочку и ищем включённую снова
   Car* current = first;
-  current->light = true;
-  current = current->next;
-  countOp++;
 
   while (!current->light) {
     current->light = true;
@@ -52,9 +30,8 @@ int Train::getLength() {
     countOp++;
   }
 
-  // Считаем длину круга
+  Car* marker = current;
   int length = 1;
-  const Car* marker = current;
   current = current->next;
   countOp++;
 
