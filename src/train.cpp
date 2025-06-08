@@ -22,11 +22,23 @@ int Train::getLength() {
   countOp = 0;
   if (!first) return 0;
 
+  // Используем алгоритм с "лампочками"
+  Car* current = first;
+
+  // Шаг 1: идём по поезду, пока не встретим включённую лампочку
+  while (!current->light) {
+    current->light = true;
+    current = current->next;
+    countOp++;
+  }
+
+  // Шаг 2: обнуляем текущий
   int length = 1;
-  Car* current = first->next;
+  Car* marker = current;
+  current = current->next;
   countOp++;
 
-  while (current != first) {
+  while (current != marker) {
     length++;
     current = current->next;
     countOp++;
