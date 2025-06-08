@@ -22,24 +22,23 @@ int Train::getLength() {
     countOp = 0;
     if (!first) return 0;
 
-    Car* current = first;
-    current->light = true; // помечаем начало
+    first->light = true;
     countOp++;
 
-    int length = 1;
-    current = current->next;
+    Car* cur = first->next;
+    int len = 1;
     countOp++;
 
-    while (!current->light) {
-        length++;
-        current = current->next;
+    while (!cur->light) {
+        cur = cur->next;
+        len++;
         countOp++;
     }
 
-    current->light = false; // сброс флага
+    first->light = false;
     countOp++;
 
-    return length;
+    return len;
 }
 
 int Train::getOpCount() {
