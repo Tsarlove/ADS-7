@@ -22,19 +22,21 @@ int Train::getLength() {
   countOp = 0;
   Car* current = first;
 
+  // включаем лампочку в начальной позиции
   current->light = true;
 
-  int length = 1;
+  int length = 0;
   current = current->next;
   countOp++;
 
+  // идём по поезду, пока не встретим включённую лампочку
   while (!current->light) {
     length++;
     current = current->next;
     countOp++;
   }
 
-  return length;
+  return length + 1;  // +1 чтобы включить первый вагон
 }
 
 int Train::getOpCount() {
