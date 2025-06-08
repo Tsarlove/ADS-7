@@ -20,23 +20,19 @@ void Train::addCar(bool light) {
 
 int Train::getLength() {
   countOp = 0;
-  Car* current = first;
+  if (!first) return 0;
 
-  // включаем лампочку в начальной позиции
-  current->light = true;
-
-  int length = 0;
-  current = current->next;
+  int length = 1;
+  Car* current = first->next;
   countOp++;
 
-  // идём по поезду, пока не встретим включённую лампочку
-  while (!current->light) {
+  while (current != first) {
     length++;
     current = current->next;
     countOp++;
   }
 
-  return length + 1;  // +1 чтобы включить первый вагон
+  return length;
 }
 
 int Train::getOpCount() {
