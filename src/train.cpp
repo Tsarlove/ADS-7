@@ -18,38 +18,27 @@ void Train::addCar(bool light) {
     }
 }
 
-// Метод по классическому алгоритму с лампочкой
 int Train::getLength() {
     countOp = 0;
     if (!first) return 0;
 
     Car* current = first;
+    int steps = 1;
+
     while (true) {
-        if (!current->light) {
-            // Впервые встретили вагон с выключенной лампочкой
-            current->light = true;
-            countOp++;
+        if (current->light) {
+            return steps;
+        }
+
+        current->light = true;
+        countOp++;
+
+        for (int i = 0; i < steps; i++) {
             current = current->next;
             countOp++;
-        } else {
-            // Нашли вагон с включённой лампочкой
-            current->light = false;  // сброс
-            countOp++;
-            int length = 1;
-            Car* checker = current->next;
-            countOp++;
-
-            while (!checker->light) {
-                checker = checker->next;
-                countOp++;
-                length++;
-            }
-
-            // Сброс последней лампы
-            checker->light = false;
-            countOp++;
-            return length;
         }
+
+        steps++;
     }
 }
 
