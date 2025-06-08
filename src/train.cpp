@@ -22,14 +22,32 @@ int Train::getLength() {
   countOp = 0;
   if (!first) return 0;
 
-  Car* temp = first;
-  do {
-    temp->light = false;
-    temp = temp->next;
-    countOp++;
-  } while (temp != first);
-
+  // Проверка: может быть, уже есть включённая лампочка
   Car* current = first;
+  do {
+    if (current->light) break;
+    current = current->next;
+    countOp++;
+  } while (current != first);
+
+  // Если лампочки уже были включены, просто обходим поезд
+  if (current->light) {
+    int length = 1;
+    Car* temp = current->next;
+    countOp++;
+    while (temp != current) {
+      length++;
+      temp = temp->next;
+      countOp++;
+    }
+    return length;
+  }
+
+  // Алгоритм: включаем первую лампочку и ищем её снова
+  current = first;
+  current->light = true;
+  current = current->next;
+  countOp++;
 
   while (!current->light) {
     current->light = true;
@@ -37,8 +55,9 @@ int Train::getLength() {
     countOp++;
   }
 
+  // Считаем количество вагонов, пока не вернёмся к первой включённой лампочке
   int length = 1;
-  const Car* marker = current;
+  Car* marker = current;
   current = current->next;
   countOp++;
 
