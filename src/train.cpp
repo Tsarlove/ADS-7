@@ -24,7 +24,7 @@ int Train::getLength() {
 
   current->light = true;
 
-  int length = 0;
+  int length = 1;
   current = current->next;
   countOp++;
 
@@ -34,7 +34,7 @@ int Train::getLength() {
     countOp++;
   }
 
-  return length + 1;
+  return length;
 }
 
 int Train::getOpCount() {
