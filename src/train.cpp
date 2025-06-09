@@ -22,26 +22,18 @@ int Train::getLength() {
     countOp = 0;
     if (!first) return 0;
 
-    // Стратегия: пройти поезд и включить лампочку в каждом вагоне
-    Car* car = first;
-    do {
-        if (!car->light) {
-            car->light = true;
-            countOp++;
-        }
-        car = car->next;
-        countOp++;
-    } while (car != first);
+    Car* cur = first;
+    int len = 1;
 
-    // Считаем количество включённых лампочек
-    int len = 0;
-    car = first;
-    do {
-        if (car->light) {
-            len++;
-        }
-        car = car->next;
-    } while (car != first);
+    cur->light = true;
+    cur = cur->next;
+    countOp++;
+
+    while (!cur->light) {
+        cur = cur->next;
+        len++;
+        countOp++;
+    }
 
     return len;
 }
