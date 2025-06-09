@@ -22,26 +22,32 @@ int Train::getLength() {
     countOp = 0;
     if (!first) return 0;
 
-    first->light = true;
+    Car* current = first;
+    current->light = true;
     countOp++;
 
-    Car* fast = first->next;
-    countOp++;
+    Car* slow = current;
+    Car* fast = current;
+    int steps = 0;
+
+    do {
+        slow = slow->next;
+        fast = fast->next->next;
+        countOp += 3;
+        steps++;
+    } while (slow != fast);
 
     int len = 1;
-
-    while (!fast->light) {
+    fast = fast->next;
+    countOp++;
+    while (fast != slow) {
         fast = fast->next;
         len++;
         countOp++;
     }
 
-    first->light = false;
-    countOp++;
-
     return len;
 }
-
 
 int Train::getOpCount() {
     return countOp;
