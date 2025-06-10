@@ -17,39 +17,46 @@ void Train::addCar(bool light) {
         first->prev = newCar;
     }
 }
-
 int Train::getLength() {
+    Car* cur = first;
     countOp = 0;
-    if (!first) return 0;
 
-    Car* current = first;
-    while (true) {
-        current->light = true;
-        countOp++;
-
-        int steps = 0;
-        Car* checker = current->next;
-        countOp++;
-
-        while (!checker->light) {
-            checker = checker->next;
-            steps++;
-            countOp++;
-        }
-
-        if (checker == current) {
-            current->light = false;
-            countOp++;
-            return steps + 1;
-        }
-
-        checker->light = false;
-        countOp++;
-
-        current = current->next;
+    // 1. Включаем лампочку в текущем вагоне
+    if (!cur->light) {
+        cur->light = true;
         countOp++;
     }
+
+    // 2. Идем направо, пока не встретим вагон с включённой лампочкой
+    int steps = 1;
+    cur = cur->next;
+    countOp++;
+
+    while (!cur->light) {
+        cur = cur->next;
+        steps++;
+        countOp++;
+    }
+
+    // 3. Выключаем лампочку в этом вагоне, чтобы избежать зацикливания
+    cur->light = false;
+    countOp++;
+
+    // 4. Возвращаемся налево столько же шагов
+    for (int i = 0; i < steps; ++i) {
+        cur = cur->prev;
+        countOp++;
+    }
+
+    // 5. Если лампочка в изначальном вагоне всё ещё включена — возвращаем длину
+    if (cur->light) {
+        return steps;
+    }
+
+    // 6. Иначе — повторяем с большим шагом
+    return getLength();  // Рекурсивный вызов до нахождения длины
 }
+
 
 int Train::getOpCount() {
     return countOp;
